@@ -1,15 +1,19 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import { ReactElement } from 'react'
+import { DashboardLayout } from '../components/template'
+import IndexPage from '../components/page/index-page'
+import { GetServerSideProps } from 'next'
+import { checkSession } from '../filters/checkSession'
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+export default function Index(): JSX.Element {
+  return <IndexPage />
+}
 
-export default IndexPage
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout title={'トップページ'}>{page}</DashboardLayout>
+}
+
+export const getServerSideProps: GetServerSideProps = checkSession(async () => {
+  return {
+    props: {},
+  }
+})
